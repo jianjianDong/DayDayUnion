@@ -19,6 +19,6 @@
     <item
         android:id="@+id/navigation_search"
         android:icon="@mipmap/search_normal"
-        android:title="@string/title_special" />
+        android:title="@string/title_search" />
 
 </menu>
