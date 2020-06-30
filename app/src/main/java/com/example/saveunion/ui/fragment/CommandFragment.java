@@ -8,4 +8,9 @@ public class CommandFragment extends BaseFragment {
     public int getResourceId() {
         return R.layout.fragment_command;
     }
+
+    @Override
+    public void initView() {
+        setUpState(State.SUCCESS);
+    }
 }

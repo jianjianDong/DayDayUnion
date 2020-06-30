@@ -1,5 +1,9 @@
 package com.example.saveunion.ui.fragment;
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.saveunion.R;
@@ -15,12 +19,12 @@ import butterknife.BindView;
 
 public class HomeFragment extends BaseFragment implements IHomeViewCallBack {
 
-    IHomePresenter mHomePresenter;
     @BindView(R.id.home_indicator)
     TabLayout mHomeIndicator;
     @BindView(R.id.home_pager)
     ViewPager mHomePager;
     private HomeFragmentPageAdapter mAdapter;
+    private IHomePresenter mHomePresenter;
 
     @Override
     public int getResourceId() {
@@ -33,6 +37,7 @@ public class HomeFragment extends BaseFragment implements IHomeViewCallBack {
         mHomePresenter.registerViewCallBack(this);
 
     }
+
 
     @Override
     public void release() {
@@ -66,6 +71,10 @@ public class HomeFragment extends BaseFragment implements IHomeViewCallBack {
         setUpState(State.LOADING);
 
     }
+    @Override
+    protected View loadRootView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_base_home_container, container,false);
+    }
 
 
     @Override
@@ -77,5 +86,12 @@ public class HomeFragment extends BaseFragment implements IHomeViewCallBack {
     @Override
     public void onError() {
         setUpState(State.ERROR);
+    }
+
+    @Override
+    protected void onNetErrorClick() {
+        if (mHomePresenter != null) {
+            mHomePresenter.getCategories();
+        }
     }
 }

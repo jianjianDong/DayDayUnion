@@ -8,4 +8,9 @@ public class RedPacketFragment extends BaseFragment {
     public int getResourceId() {
         return R.layout.fragment_redpacket;
     }
+
+    @Override
+    public void initView() {
+        setUpState(State.SUCCESS);
+    }
 }

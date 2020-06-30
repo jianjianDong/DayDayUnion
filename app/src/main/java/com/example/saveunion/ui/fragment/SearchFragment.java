@@ -8,4 +8,9 @@ public class SearchFragment extends BaseFragment {
     public int getResourceId() {
         return R.layout.fragment_search;
     }
+
+    @Override
+    public void initView() {
+        setUpState(State.SUCCESS);
+    }
 }

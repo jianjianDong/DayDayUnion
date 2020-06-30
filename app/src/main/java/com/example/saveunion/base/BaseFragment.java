@@ -5,23 +5,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.saveunion.R;
+import com.example.saveunion.utils.LogUtils;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment {
 
 
+    @BindView(R.id.net_error)
+    LinearLayout netError;
     private State mState = State.NONE;
 
-    public enum State{
-        SUCCESS,ERROR,EMPTY,NONE,LOADING
+
+
+    public enum State {
+        SUCCESS, ERROR, EMPTY, NONE, LOADING
     }
 
     private Unbinder mBind;
@@ -35,14 +43,29 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_base_container, container, false);
+        mRootView = loadRootView(inflater, container);
         mBaseContainer = mRootView.findViewById(R.id.fragment_base_container);
-        loadStateView(inflater,container);
+        loadStateView(inflater, container);
         initPresenter();
         loadData();
         mBind = ButterKnife.bind(this, mRootView);
         initView();
         return mRootView;
+    }
+
+    protected View loadRootView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_base_container, container, false);
+    }
+
+    @OnClick(R.id.net_error)
+    public void onViewClicked() {
+        LogUtils.d(BaseFragment.class, "on net error click");
+        onNetErrorClick();
+
+    }
+
+    protected void onNetErrorClick() {
+
     }
 
 
@@ -51,7 +74,8 @@ public abstract class BaseFragment extends Fragment {
      * @param inflater
      * @param container
      */
-    private void loadStateView(LayoutInflater inflater,ViewGroup container) {
+    private void loadStateView(LayoutInflater inflater, ViewGroup container) {
+
         mSuccessView = loadSuccessView(inflater, container);
         mBaseContainer.addView(mSuccessView);
 
@@ -70,6 +94,7 @@ public abstract class BaseFragment extends Fragment {
 
     /**
      * 设置当前状态
+     *
      * @param state 状态
      */
     public void setUpState(State state) {
@@ -82,18 +107,18 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected View loadErrorView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_error,container,false);
+        return inflater.inflate(R.layout.fragment_error, container, false);
     }
 
     protected View loadLoadingView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_loading,container,false);
+        return inflater.inflate(R.layout.fragment_loading, container, false);
     }
 
     protected View loadEmptyView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_empty,container,false);
+        return inflater.inflate(R.layout.fragment_empty, container, false);
     }
 
-    protected View loadSuccessView(LayoutInflater inflater,ViewGroup container) {
+    protected View loadSuccessView(LayoutInflater inflater, ViewGroup container) {
         int id = getResourceId();
         return inflater.inflate(id, container, false);
     }
@@ -120,7 +145,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
 
-    public  void initPresenter() {
+    public void initPresenter() {
         //生成presenter
     }
 
