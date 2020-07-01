@@ -1,13 +1,17 @@
 package com.example.saveunion.ui.adapter;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.saveunion.base.BaseFragment;
 import com.example.saveunion.model.bean;
 import com.example.saveunion.ui.fragment.HomePagerFragment;
+import com.example.saveunion.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +28,8 @@ public class HomeFragmentPageAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        HomePagerFragment homePagerFragment = new HomePagerFragment();
-
-        return homePagerFragment;
+        bean.DataBean dataBean = mData.get(position);
+        return HomePagerFragment.getsInstance(dataBean);
     }
 
     @Override

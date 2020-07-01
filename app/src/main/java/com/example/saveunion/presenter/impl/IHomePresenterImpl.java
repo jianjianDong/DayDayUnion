@@ -69,7 +69,8 @@ public class IHomePresenterImpl implements IHomePresenter {
 
     @Override
     public void unRegisterViewCallBack(IHomeViewCallBack callBack) {
-        this.mCallBack = null;
-
+        if (mCallBack != null) {
+            this.mCallBack = null;
+        }
     }
 }
