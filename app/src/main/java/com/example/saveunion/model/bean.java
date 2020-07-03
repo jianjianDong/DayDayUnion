@@ -15,7 +15,7 @@ public class bean {
      */
 
     private boolean success;
-    private int code;
+    private long code;
     private String message;
     private List<DataBean> data;
 
@@ -27,11 +27,11 @@ public class bean {
         this.success = success;
     }
 
-    public int getCode() {
+    public long getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(long code) {
         this.code = code;
     }
 

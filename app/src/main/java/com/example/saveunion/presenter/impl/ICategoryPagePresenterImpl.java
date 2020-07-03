@@ -1,5 +1,7 @@
 package com.example.saveunion.presenter.impl;
 
+import android.util.Log;
+
 import com.example.saveunion.model.Api;
 import com.example.saveunion.model.HomePageContent;
 import com.example.saveunion.model.bean;
@@ -55,6 +57,7 @@ public class ICategoryPagePresenterImpl implements ICategoryPagePresenter {
             public void onResponse(Call<HomePageContent> call, Response<HomePageContent> response) {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     HomePageContent body = response.body();
+//                    LogUtils.d(ICategoryPagePresenterImpl.class, "onResponse: " + body.toString());
                     handleHomePageContentResult(body, id);
                 } else {
                     handleNetError(id);
@@ -63,7 +66,8 @@ public class ICategoryPagePresenterImpl implements ICategoryPagePresenter {
 
             @Override
             public void onFailure(Call<HomePageContent> call, Throwable t) {
-                LogUtils.d(ICategoryPagePresenterImpl.class, "onFailure");
+                LogUtils.d(ICategoryPagePresenterImpl.class, "onFailure: "+t);
+
                 handleNetError(id);
 
             }
@@ -72,13 +76,13 @@ public class ICategoryPagePresenterImpl implements ICategoryPagePresenter {
     }
 
     private void handleHomePageContentResult(HomePageContent body, int id) {
-        List<HomePageContent.DataBean> dataBeans = body.getData();
         for (ICategoryPageViewCallBack callback :
                 mCallBacks) {
-            if (callback.getCategoryId() == id) {
-                if (body.getData().size() == 0) {
+            if (callback.getCategoryId() == id) {  //只有当前id相同才会更新
+                if (body == null || body.getData().size() == 0) {
                     callback.onEmpty();
                 } else {
+                    List<HomePageContent.DataBean> dataBeans = body.getData();
                     callback.onCategoryContentLoaded(dataBeans);
                 }
             }

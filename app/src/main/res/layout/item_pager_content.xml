@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <ImageView
+        android:id="@+id/item_cover_ig"
+        android:background="@drawable/ic_launcher_background"
+        android:layout_width="80dp"
+        android:layout_height="80dp"/>
+    <TextView
+        android:id="@+id/item_describe_tx"
+        android:text="石墨烯加热眼罩热敷usb充电发热睡觉遮光睡眠男女护眼缓解眼疲劳热眼罩热敷usb充…"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    
+
+</LinearLayout>

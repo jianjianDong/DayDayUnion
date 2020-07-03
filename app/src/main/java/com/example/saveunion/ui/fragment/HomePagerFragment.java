@@ -15,9 +15,7 @@ import java.util.List;
 
 public class HomePagerFragment extends BaseFragment implements ICategoryPageViewCallBack {
 
-    private HomePagerFragment() {
-
-    }
+    private int mId;
 
     public static HomePagerFragment getsInstance(bean.DataBean dataBean) {
         HomePagerFragment homePagerFragment = new HomePagerFragment();
@@ -56,20 +54,20 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
         Bundle bundle = getArguments();
         assert bundle != null;
         String title = bundle.getString(Constant.KEY_HOME_PAGE_TITLE);
-        int id = bundle.getInt(Constant.KEY_HOME_PAGE_MATERIAL_ID);
+        mId = bundle.getInt(Constant.KEY_HOME_PAGE_MATERIAL_ID);
         if (mCategoryPagePresenter != null) {
-            mCategoryPagePresenter.getContentByCategoryId(id);
+            mCategoryPagePresenter.getContentByCategoryId(mId);
         }
     }
 
     @Override
     public void onCategoryContentLoaded(List<HomePageContent.DataBean> contents) {
-
+        setUpState(State.SUCCESS);
     }
 
     @Override
     public int getCategoryId() {
-        return 0;
+        return mId;
     }
 
     @Override
@@ -94,17 +92,17 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
 
     @Override
     public void onLoading() {
-
+        setUpState(State.LOADING);
     }
 
     @Override
     public void onEmpty() {
-
+        setUpState(State.EMPTY);
     }
 
     @Override
     public void onError() {
-
+        setUpState(State.ERROR);
     }
 
     @Override

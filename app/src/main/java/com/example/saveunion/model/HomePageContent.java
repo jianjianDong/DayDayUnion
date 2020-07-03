@@ -98,7 +98,7 @@ public class HomePageContent {
         private String level_one_category_name;
         private String nick;
         private String pict_url;
-        private int seller_id;
+        private long seller_id;
         private String shop_title;
         private SmallImagesBean small_images;
         private String title;
@@ -258,11 +258,11 @@ public class HomePageContent {
             this.pict_url = pict_url;
         }
 
-        public int getSeller_id() {
+        public long getSeller_id() {
             return seller_id;
         }
 
-        public void setSeller_id(int seller_id) {
+        public void setSeller_id(long seller_id) {
             this.seller_id = seller_id;
         }
 
