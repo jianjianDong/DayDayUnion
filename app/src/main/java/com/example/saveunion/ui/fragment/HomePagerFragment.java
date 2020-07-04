@@ -2,20 +2,31 @@ package com.example.saveunion.ui.fragment;
 
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.saveunion.R;
 import com.example.saveunion.base.BaseFragment;
 import com.example.saveunion.model.HomePageContent;
 import com.example.saveunion.model.bean;
 import com.example.saveunion.presenter.ICategoryPagePresenter;
 import com.example.saveunion.presenter.impl.ICategoryPagePresenterImpl;
+import com.example.saveunion.ui.adapter.LinerItemContentAdapter;
 import com.example.saveunion.utils.Constant;
+import com.example.saveunion.utils.LogUtils;
 import com.example.saveunion.view.ICategoryPageViewCallBack;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 public class HomePagerFragment extends BaseFragment implements ICategoryPageViewCallBack {
 
+    @BindView(R.id.home_pager_content)
+    RecyclerView mHomePagerContent;
     private int mId;
+    private LinerItemContentAdapter mLinerItemContentAdapter;
 
     public static HomePagerFragment getsInstance(bean.DataBean dataBean) {
         HomePagerFragment homePagerFragment = new HomePagerFragment();
@@ -29,8 +40,6 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
     }
 
 
-
-
     private ICategoryPagePresenter mCategoryPagePresenter;
 
     @Override
@@ -40,7 +49,9 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
 
     @Override
     public void initView() {
-        setUpState(State.SUCCESS);
+        mHomePagerContent.setLayoutManager(new LinearLayoutManager(getContext()));
+        mLinerItemContentAdapter = new LinerItemContentAdapter();
+        mHomePagerContent.setAdapter(mLinerItemContentAdapter);
     }
 
     @Override
@@ -55,6 +66,8 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
         assert bundle != null;
         String title = bundle.getString(Constant.KEY_HOME_PAGE_TITLE);
         mId = bundle.getInt(Constant.KEY_HOME_PAGE_MATERIAL_ID);
+        LogUtils.d(this.getClass(), "title is -->>" + title);
+        LogUtils.d(this.getClass(), "id is -->>" + mId);
         if (mCategoryPagePresenter != null) {
             mCategoryPagePresenter.getContentByCategoryId(mId);
         }
@@ -62,6 +75,7 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
 
     @Override
     public void onCategoryContentLoaded(List<HomePageContent.DataBean> contents) {
+        mLinerItemContentAdapter.setData(contents);
         setUpState(State.SUCCESS);
     }
 
@@ -108,5 +122,9 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
     @Override
     public void release() {
         mCategoryPagePresenter.unRegisterViewCallBack(this);
+    }
+
+    @OnClick(R.id.home_pager_content)
+    public void onViewClicked() {
     }
 }

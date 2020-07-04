@@ -7,5 +7,6 @@
     <color name="white">#ffffffff</color>
     <color name="tabSelected">#000000</color>
     <color name="tabNormal">#99ffffff</color>
+    <color name="colorTmall">#D0021B</color>
 
 </resources>

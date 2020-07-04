@@ -6,4 +6,7 @@ public class UrlUtils {
         return "discovery/" + materialId + "/" + page;
     }
 
+    public static String createCoverUrl(String cover) {
+        return "https:" + cover;
+    }
 }
