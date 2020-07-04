@@ -1,10 +1,12 @@
 package com.example.saveunion.ui.adapter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,15 +53,18 @@ public class LinerItemContentAdapter extends RecyclerView.Adapter<LinerItemConte
         notifyDataSetChanged();
     }
 
-    public class InnerViewHolder extends RecyclerView.ViewHolder {
+    public static class InnerViewHolder extends RecyclerView.ViewHolder {
 
+        private final Context mContext;
         @BindView(R.id.goods_cover_ig)
         ImageView mImageView;
 
-
+        @BindView(R.id.goods_off_prise)
+        TextView mGoodsOffPriseTv;
 
         public InnerViewHolder(@NonNull View itemView) {
             super(itemView);
+            mContext = itemView.getContext();
             ButterKnife.bind(this, itemView);
 
         }
@@ -67,6 +72,8 @@ public class LinerItemContentAdapter extends RecyclerView.Adapter<LinerItemConte
         public void setData(HomePageContent.DataBean dataBean) {
 
             String cover = dataBean.getPict_url();
+            int offPrise = dataBean.getCoupon_amount();
+            mGoodsOffPriseTv.setText(mContext.getString(R.string.goods_save_tx, offPrise));
 
             String coverUrl = UrlUtils.createCoverUrl(cover);
 
