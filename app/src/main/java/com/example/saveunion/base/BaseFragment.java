@@ -46,10 +46,10 @@ public abstract class BaseFragment extends Fragment {
         mRootView = loadRootView(inflater, container);
         mBaseContainer = mRootView.findViewById(R.id.fragment_base_container);
         loadStateView(inflater, container);
-        initPresenter();
-        loadData();
         mBind = ButterKnife.bind(this, mRootView);
         initView();
+        initPresenter();
+        loadData();
         return mRootView;
     }
 

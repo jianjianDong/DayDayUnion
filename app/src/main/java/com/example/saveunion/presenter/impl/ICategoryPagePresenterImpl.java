@@ -83,6 +83,8 @@ public class ICategoryPagePresenterImpl implements ICategoryPagePresenter {
                     callback.onEmpty();
                 } else {
                     List<HomePageContent.DataBean> dataBeans = body.getData();
+                    List<HomePageContent.DataBean> loopData = dataBeans.subList(dataBeans.size() - 5, dataBeans.size());
+                    callback.onLooperListLoaded(loopData);
                     callback.onCategoryContentLoaded(dataBeans);
                 }
             }

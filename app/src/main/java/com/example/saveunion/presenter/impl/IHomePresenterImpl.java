@@ -36,7 +36,7 @@ public class IHomePresenterImpl implements IHomePresenter {
                 if (response.code() == HttpURLConnection.HTTP_OK) {
                     bean body = response.body();
 
-                    if (mCallBack == null || body.getData().size() == 0) {
+                    if (body == null || body.getData().size() == 0) {
                         mCallBack.onEmpty();
                     } else {
                         //success

@@ -1,6 +1,7 @@
 package com.example.saveunion.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,18 @@ public class LinerItemContentAdapter extends RecyclerView.Adapter<LinerItemConte
         @BindView(R.id.goods_off_prise)
         TextView mGoodsOffPriseTv;
 
+        @BindView(R.id.goods_after_off_prise)
+        TextView mResultPrise;
+
+        @BindView(R.id.goods_origin_price)
+        TextView mOriginPrise;
+
+        @BindView(R.id.goods_sell_count)
+        TextView mSellCount;
+
+        @BindView(R.id.goods_describe_tx)
+        TextView mTitle;
+
         public InnerViewHolder(@NonNull View itemView) {
             super(itemView);
             mContext = itemView.getContext();
@@ -74,6 +87,19 @@ public class LinerItemContentAdapter extends RecyclerView.Adapter<LinerItemConte
             String cover = dataBean.getPict_url();
             int offPrise = dataBean.getCoupon_amount();
             mGoodsOffPriseTv.setText(mContext.getString(R.string.goods_save_tx, offPrise));
+
+            String zk_final_price = dataBean.getZk_final_price();
+            float resultPrise = Float.parseFloat(zk_final_price) - offPrise;
+
+            mResultPrise.setText(String.format("%.2f", resultPrise));
+
+            mOriginPrise.setText(mContext.getString(R.string.goods_original_prise,zk_final_price));
+            mOriginPrise.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG|Paint.ANTI_ALIAS_FLAG);
+
+            mSellCount.setText(mContext.getString(R.string.goods_sell_count, dataBean.getVolume()));
+
+            mTitle.setText(dataBean.getTitle());
+
 
             String coverUrl = UrlUtils.createCoverUrl(cover);
 

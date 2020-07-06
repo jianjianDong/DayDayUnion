@@ -1,9 +1,11 @@
 package com.example.saveunion.ui.fragment;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.saveunion.R;
 import com.example.saveunion.base.BaseFragment;
@@ -12,6 +14,7 @@ import com.example.saveunion.model.bean;
 import com.example.saveunion.presenter.ICategoryPagePresenter;
 import com.example.saveunion.presenter.impl.ICategoryPagePresenterImpl;
 import com.example.saveunion.ui.adapter.LinerItemContentAdapter;
+import com.example.saveunion.ui.adapter.LooperPagerAdapter;
 import com.example.saveunion.utils.Constant;
 import com.example.saveunion.utils.LogUtils;
 import com.example.saveunion.view.ICategoryPageViewCallBack;
@@ -25,8 +28,15 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
 
     @BindView(R.id.home_pager_content)
     RecyclerView mHomePagerContent;
+    @BindView(R.id.home_looper)
+    ViewPager mHomeLooper;
+    @BindView(R.id.include_title)
+    TextView includeTitle;
+
     private int mId;
     private LinerItemContentAdapter mLinerItemContentAdapter;
+    private LooperPagerAdapter mLooperPagerAdapter;
+    private String mTitle;
 
     public static HomePagerFragment getsInstance(bean.DataBean dataBean) {
         HomePagerFragment homePagerFragment = new HomePagerFragment();
@@ -52,6 +62,11 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
         mHomePagerContent.setLayoutManager(new LinearLayoutManager(getContext()));
         mLinerItemContentAdapter = new LinerItemContentAdapter();
         mHomePagerContent.setAdapter(mLinerItemContentAdapter);
+
+        mLooperPagerAdapter = new LooperPagerAdapter();
+        mHomeLooper.setAdapter(mLooperPagerAdapter);
+
+
     }
 
     @Override
@@ -64,13 +79,16 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
     public void loadData() {
         Bundle bundle = getArguments();
         assert bundle != null;
-        String title = bundle.getString(Constant.KEY_HOME_PAGE_TITLE);
+        mTitle = bundle.getString(Constant.KEY_HOME_PAGE_TITLE);
         mId = bundle.getInt(Constant.KEY_HOME_PAGE_MATERIAL_ID);
-        LogUtils.d(this.getClass(), "title is -->>" + title);
+        LogUtils.d(this.getClass(), "title is -->>" + mTitle);
         LogUtils.d(this.getClass(), "id is -->>" + mId);
         if (mCategoryPagePresenter != null) {
             mCategoryPagePresenter.getContentByCategoryId(mId);
         }
+        includeTitle.setText(mTitle);
+
+
     }
 
     @Override
@@ -101,6 +119,8 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
 
     @Override
     public void onLooperListLoaded(List<HomePageContent.DataBean> contents) {
+
+        mLooperPagerAdapter.setData(contents);
 
     }
 

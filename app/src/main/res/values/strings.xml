@@ -11,4 +11,7 @@
     <string name="empty">内容被外星人偷走了。。。</string>
     <string name="net_error">网络错误，点击重试...</string>
     <string name="goods_save_tx">省%1$d元</string>
+    <string name="goods_off_prise">券后价：</string>
+    <string name="goods_original_prise">¥ %1$s</string>
+    <string name="goods_sell_count">%1$d 人已购买</string>
 </resources>
