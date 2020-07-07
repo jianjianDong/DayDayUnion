@@ -1,8 +1,15 @@
 package com.example.saveunion.ui.fragment;
 
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -17,6 +24,7 @@ import com.example.saveunion.ui.adapter.LinerItemContentAdapter;
 import com.example.saveunion.ui.adapter.LooperPagerAdapter;
 import com.example.saveunion.utils.Constant;
 import com.example.saveunion.utils.LogUtils;
+import com.example.saveunion.utils.SizeUtils;
 import com.example.saveunion.view.ICategoryPageViewCallBack;
 
 import java.util.List;
@@ -32,6 +40,8 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
     ViewPager mHomeLooper;
     @BindView(R.id.include_title)
     TextView includeTitle;
+    @BindView(R.id.looper_point)
+    LinearLayout mLooperPointContainer;
 
     private int mId;
     private LinerItemContentAdapter mLinerItemContentAdapter;
@@ -60,6 +70,13 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
     @Override
     public void initView() {
         mHomePagerContent.setLayoutManager(new LinearLayoutManager(getContext()));
+        mHomePagerContent.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                outRect.top = 8;
+                outRect.bottom = 8;
+            }
+        });
         mLinerItemContentAdapter = new LinerItemContentAdapter();
         mHomePagerContent.setAdapter(mLinerItemContentAdapter);
 
@@ -121,7 +138,26 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPageView
     public void onLooperListLoaded(List<HomePageContent.DataBean> contents) {
 
         mLooperPagerAdapter.setData(contents);
+        //添加点
+        mLooperPointContainer.removeAllViews();
+        GradientDrawable selectPoint = (GradientDrawable) getContext().getDrawable(R.drawable.shape_indicator_point);
+        GradientDrawable normalPoint = (GradientDrawable) getContext().getDrawable(R.drawable.shape_indicator_point);
+        normalPoint.setColor(getResources().getColor(R.color.white));
+        for (int i = 0; i < contents.size(); i++) {
+            View view = new View(getContext());
 
+            int i1 = SizeUtils.dp2px(getContext(), 8);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(i1, i1);
+            layoutParams.leftMargin = SizeUtils.dp2px(getContext(), 5);
+            layoutParams.rightMargin = SizeUtils.dp2px(getContext(), 5);
+            view.setLayoutParams(layoutParams);
+            if (i == 1) {
+                view.setBackground(selectPoint);
+            } else {
+                view.setBackground(normalPoint);
+            }
+            mLooperPointContainer.addView(view);
+        }
     }
 
     @Override
